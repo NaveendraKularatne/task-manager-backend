@@ -1,11 +1,11 @@
 package com.osos.taskmanager.controller;
 
+import com.osos.taskmanager.dto.TaskRequestDto;
 import com.osos.taskmanager.dto.TaskResponseDto;
-import com.osos.taskmanager.entity.Task;
 import com.osos.taskmanager.service.TaskService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -22,5 +22,11 @@ public class TaskController {
     @GetMapping
     public List<TaskResponseDto> getAllTasks() {
         return this.taskService.getAllTasks();
+    }
+
+    @PostMapping("/addTask")
+    public ResponseEntity<TaskResponseDto> addTask(@RequestBody TaskRequestDto taskRequestDto) {
+        TaskResponseDto createdTask = taskService.addTask(taskRequestDto);
+        return new ResponseEntity<>(createdTask, HttpStatus.CREATED);
     }
 }

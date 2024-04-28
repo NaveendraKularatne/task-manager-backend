@@ -1,14 +1,12 @@
 package com.osos.taskmanager.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Date;
+import java.time.LocalDate;
 
 @Entity
 @Data
@@ -18,6 +16,7 @@ import java.sql.Date;
 public class Task {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "title", length = 100)
@@ -26,6 +25,6 @@ public class Task {
     @Column(name = "description", length = 255)
     private String description;
 
-    @Column(name = "date")
-    private Date date;
+    @Column(name = "duedate")
+    private LocalDate duedate;
 }
