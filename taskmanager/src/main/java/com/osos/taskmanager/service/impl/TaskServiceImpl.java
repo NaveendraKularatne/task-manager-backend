@@ -45,12 +45,12 @@ public class TaskServiceImpl implements TaskService {
         return taskResponseDto;
     }
 
+    //    Update a task by id
     @Override
     public TaskResponseDto updateTask(Long id, TaskRequestDto taskRequestDto) {
         Task task = taskRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Task not found with id " + id));
 
-        // Update task fields
         if (taskRequestDto.getTitle() != null) {
             task.setTitle(taskRequestDto.getTitle());
         }
@@ -61,11 +61,19 @@ public class TaskServiceImpl implements TaskService {
             task.setDuedate(taskRequestDto.getDuedate());
         }
 
-        // Save updated task
         task = taskRepository.save(task);
 
         TaskResponseDto taskResponseDto = new TaskResponseDto();
         BeanUtils.copyProperties(task, taskResponseDto);
         return taskResponseDto;
+    }
+
+    //    Delete a task by id
+    @Override
+    public void deleteTask(Long id) {
+        if (!taskRepository.existsById(id)) {
+            throw new RuntimeException("Task not found with id " + id);
+        }
+        taskRepository.deleteById(id);
     }
 }
