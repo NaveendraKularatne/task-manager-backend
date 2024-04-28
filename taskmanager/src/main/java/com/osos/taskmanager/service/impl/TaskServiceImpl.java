@@ -23,7 +23,7 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public List<TaskResponseDto> getAllTasks() {
-        List<Task> taskList = taskRepository.findAll();
+        List<Task> taskList = taskRepository.findAllByOrderByIdAsc();
         List<TaskResponseDto> taskResponseDtoList = new ArrayList<>();
         taskList.forEach(task -> {
             TaskResponseDto taskResponseDto = new TaskResponseDto();
@@ -42,6 +42,30 @@ public class TaskServiceImpl implements TaskService {
         TaskResponseDto taskResponseDto = new TaskResponseDto();
         BeanUtils.copyProperties(task, taskResponseDto);
         taskResponseDto.setDuedate(task.getDuedate());
+        return taskResponseDto;
+    }
+
+    @Override
+    public TaskResponseDto updateTask(Long id, TaskRequestDto taskRequestDto) {
+        Task task = taskRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Task not found with id " + id));
+
+        // Update task fields
+        if (taskRequestDto.getTitle() != null) {
+            task.setTitle(taskRequestDto.getTitle());
+        }
+        if (taskRequestDto.getDescription() != null) {
+            task.setDescription(taskRequestDto.getDescription());
+        }
+        if (taskRequestDto.getDuedate() != null) {
+            task.setDuedate(taskRequestDto.getDuedate());
+        }
+
+        // Save updated task
+        task = taskRepository.save(task);
+
+        TaskResponseDto taskResponseDto = new TaskResponseDto();
+        BeanUtils.copyProperties(task, taskResponseDto);
         return taskResponseDto;
     }
 }
