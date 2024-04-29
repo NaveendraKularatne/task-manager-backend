@@ -5,6 +5,7 @@ import com.osos.taskmanager.dto.TaskResponseDto;
 import com.osos.taskmanager.service.TaskService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,9 +21,15 @@ public class TaskController {
         this.taskService = taskService;
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public List<TaskResponseDto> getAllTasks() {
         return this.taskService.getAllTasks();
+    }
+
+    @GetMapping("/test")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public String getTestString() {
+        return "Test String";
     }
 
     @PostMapping("/add")

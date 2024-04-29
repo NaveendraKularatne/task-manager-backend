@@ -1,10 +1,10 @@
 spring:
     application:
         name: taskmanager
-    security:
-        user:
-            password: test
-            name: test
+#    security:
+#        user:
+#            password: test
+#            name: test
     datasource:
         driverClassName: org.postgresql.Driver
         url: jdbc:postgresql://localhost:5432/task_manager
