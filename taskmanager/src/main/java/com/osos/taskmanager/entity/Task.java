@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
+import java.util.Date;
 
 @Entity
 @Data
@@ -25,5 +25,5 @@ public class Task {
     private String description;
 
     @Column(name = "duedate")
-    private LocalDate duedate;
+    private Date duedate;
 }

@@ -8,7 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
+import java.util.Date;
 
 @Data
 @AllArgsConstructor
@@ -23,5 +23,5 @@ public class TaskRequestDto {
     @NotNull(message = "Due date is required")
     @FutureOrPresent(message = "Due date must be in the future or present")
     @JsonFormat(pattern = "yyyy-MM-dd")
-    private LocalDate duedate;
+    private Date duedate;
 }
