@@ -17,3 +17,5 @@ spring:
         hibernate:
             ddl-auto: update
 
+security.jwt.token.secret-key: 639f2d57-f6f5-4ca7-a436-c16b208291ea
+

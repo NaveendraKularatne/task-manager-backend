@@ -7,4 +7,6 @@ import org.springframework.http.ResponseEntity;
 
 public interface UserInfoService {
     ResponseEntity<UserInfoResponseDto> addUser(UserInfoRequestDto userInfoRequestDto);
+
+    UserInfoResponseDto login(UserInfoRequestDto userInfoRequestDto);
 }

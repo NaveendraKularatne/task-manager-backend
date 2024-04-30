@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -19,30 +20,17 @@ public class SecurityConfig {
 
     @Bean
     public UserDetailsService userDetailsService() {
-//        UserDetails admin = User.withUsername("Naveendra")
-//                .password(encoder.encode("naveendra"))
-//                .roles("ADMIN")
-//                .build();
-//        UserDetails user = User.withUsername("Ashoka")
-//                .password(encoder.encode("ashoka"))
-//                .roles("USER")
-//                .build();
-//        UserDetails user_1 = User.withUsername("Kasun")
-//                .password(encoder.encode("kasun"))
-//                .roles("USER")
-//                .build();
-//        return new InMemoryUserDetailsManager(user, admin);
         return new UserInfoUserDetailsService();
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, UserAuthProvider userAuthProvider) throws Exception {
         return http.csrf().disable()
+                .addFilterBefore(new JwtAuthFilter(userAuthProvider), BasicAuthenticationFilter.class)
                 .authorizeHttpRequests()
-                .requestMatchers("/api/tasks/all","/api/users/add/user").permitAll()
+                .requestMatchers("/api/auth/login").permitAll()
                 .and()
                 .authorizeHttpRequests().requestMatchers("/api/tasks/**").authenticated()
-                .and().formLogin()
                 .and().build();
     }
 

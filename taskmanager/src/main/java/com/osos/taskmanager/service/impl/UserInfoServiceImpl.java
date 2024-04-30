@@ -6,9 +6,12 @@ import com.osos.taskmanager.entity.UserInfo;
 import com.osos.taskmanager.repository.UserInfoRepository;
 import com.osos.taskmanager.service.UserInfoService;
 import org.springframework.beans.BeanUtils;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.nio.CharBuffer;
 
 @Service
 public class UserInfoServiceImpl implements UserInfoService {
@@ -30,5 +33,18 @@ public class UserInfoServiceImpl implements UserInfoService {
         userInfo = userInfoRepository.save(userInfo);
         BeanUtils.copyProperties(userInfo, userInfoResponseDto);
         return ResponseEntity.ok().body(userInfoResponseDto);
+    }
+
+    @Override
+    public UserInfoResponseDto login(UserInfoRequestDto userInfoRequestDto) {
+        UserInfo foundUser = userInfoRepository.findByName(userInfoRequestDto.getName())
+                .orElseThrow(() -> new RuntimeException("Unknown user"));
+
+        if (passwordEncoder.matches(CharBuffer.wrap(userInfoRequestDto.getPassword()), foundUser.getPassword())) {
+            UserInfoResponseDto userInfoResponseDto = new UserInfoResponseDto();
+            BeanUtils.copyProperties(foundUser, userInfoResponseDto);
+            return userInfoResponseDto;
+        }
+        throw new RuntimeException("Invalid password");
     }
 }
