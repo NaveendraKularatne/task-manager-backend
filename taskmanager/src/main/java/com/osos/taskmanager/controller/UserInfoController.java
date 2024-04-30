@@ -17,7 +17,7 @@ public class UserInfoController {
         this.userInfoService = userInfoService;
     }
 
-    @PostMapping("/add/user")
+    @PostMapping
     public ResponseEntity<UserInfoResponseDto> addUser(@RequestBody UserInfoRequestDto userInfoRequestDto) {
         return userInfoService.addUser(userInfoRequestDto);
     }

@@ -30,7 +30,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests()
                 .requestMatchers("/api/auth/login").permitAll()
                 .and()
-                .authorizeHttpRequests().requestMatchers("/api/tasks/**").authenticated()
+                .authorizeHttpRequests().requestMatchers("/api/tasks/**","/api/users/**").authenticated()
                 .and().build();
     }
 
