@@ -20,14 +20,9 @@ public class TaskController {
         this.taskService = taskService;
     }
 
-    @GetMapping("/all")
+    @GetMapping
     public List<TaskResponseDto> getAllTasks() {
         return this.taskService.getAllTasks();
-    }
-
-    @GetMapping
-    public String getTestString() {
-        return "Test String";
     }
 
     @PostMapping
