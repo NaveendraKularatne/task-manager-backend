@@ -7,7 +7,6 @@ import com.osos.taskmanager.repository.TaskRepository;
 import com.osos.taskmanager.service.TaskService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
