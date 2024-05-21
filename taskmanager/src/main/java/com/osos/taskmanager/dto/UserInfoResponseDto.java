@@ -9,7 +9,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UserInfoResponseDto {
     private String name;
-    private String password;
-    private String roles;
     private String token;
 }

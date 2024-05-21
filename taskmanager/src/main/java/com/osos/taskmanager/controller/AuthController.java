@@ -24,6 +24,14 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody UserInfoRequestDto userInfoRequestDto) {
+        if (userInfoRequestDto.getName() == null || userInfoRequestDto.getName().isEmpty()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse("Username is required"));
+        }
+
+        if (userInfoRequestDto.getPassword() == null || userInfoRequestDto.getPassword().isEmpty()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse("password is required"));
+        }
+
         try {
             UserInfoResponseDto userInfoResponseDto = this.userInfoService.login(userInfoRequestDto);
             userInfoResponseDto.setToken(this.userAuthProvider.createToken(userInfoRequestDto));
