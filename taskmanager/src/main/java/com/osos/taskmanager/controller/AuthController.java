@@ -3,7 +3,9 @@ package com.osos.taskmanager.controller;
 import com.osos.taskmanager.config.UserAuthProvider;
 import com.osos.taskmanager.dto.UserInfoRequestDto;
 import com.osos.taskmanager.dto.UserInfoResponseDto;
-import com.osos.taskmanager.error.ErrorResponse;
+import com.osos.taskmanager.exception.ErrorResponse;
+import com.osos.taskmanager.exception.InvalidPasswordException;
+import com.osos.taskmanager.exception.UserNotFoundException;
 import com.osos.taskmanager.service.UserInfoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,8 +38,12 @@ public class AuthController {
             UserInfoResponseDto userInfoResponseDto = this.userInfoService.login(userInfoRequestDto);
             userInfoResponseDto.setToken(this.userAuthProvider.createToken(userInfoRequestDto));
             return ResponseEntity.ok().body(userInfoResponseDto);
+        } catch (UserNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ErrorResponse("Unknown user"));
+        } catch (InvalidPasswordException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ErrorResponse("Invalid password"));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ErrorResponse("Invalid credentials"));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponse("An unexpected error occurred"));
         }
     }
 }
